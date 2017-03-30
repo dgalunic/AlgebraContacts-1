@@ -42,7 +42,7 @@ class DB
 			if(!empty($params)) {
 				foreach($params as $param) {
 					$this->_query->bindValue($x, $param);
-					$x++
+					$x++;
 				}
 			}
 			
