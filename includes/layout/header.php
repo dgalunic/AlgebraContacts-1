@@ -13,7 +13,7 @@
 	<body>
 		<nav class="navbar navbar-default">
             <div class="container-fluid">
-                    <a class="navbar-brand center-block" style="text-align:center;float:none;" href="#">Algebra Contacts</a>
+                    <a class="navbar-brand center-block" style="text-align:center;float:none;" href="index.php">Algebra Contacts</a>
             </div><!-- /.container-fluid -->
         </nav>
         <div class="container-fluid">
