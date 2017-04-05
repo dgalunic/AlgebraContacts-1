@@ -3,9 +3,31 @@
 	
 	Helper::getHeader('Algebra Contacts');
 	
+	$validation = new Validation();
+	
+	
 	if(Input::exists()) {
-		//echo 'RADI';
-		//echo Input::get('password');
+		$validate = $validation->check(array(
+			'name'            => array(
+				'required' => true,
+				'min'      => 2,
+				'max'      => 50
+			),
+			'username'        => array(
+				'required' => true,
+				'min'      => 2,
+				'max'      => 20,
+				/*'unique'   => 'users'*/
+			),
+			'password'        => array(
+				'required' => true,
+				'min'      => 8
+			),
+			'password_again'  => array(
+				'required' => true,
+				'matches'  => 'password'
+			)
+		));
 	}
 ?>
 <div class="row">
@@ -16,9 +38,10 @@
 			</div>
 			<div class="panel-body">
 				<form method="post">
-					<div class="form-group">
+					<div class="form-group <?php echo ($validation->hasError('name')) ? 'has-error' : ''; ?>">
 						<label for="name" class="control-label">Name*</label>
 						<input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" value="<?php echo escape(Input::get('name'))?>">
+						<?php echo ($validation->hasError('name')) ? '<p class="text-danger">'.$validation->hasError('name').'</p>' : '';?>
 					</div>
 					<div class="form-group">
 						<label for="username" class="control-label">Username*</label>

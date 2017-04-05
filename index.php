@@ -2,7 +2,7 @@
 	require_once 'core/init.php';
 	
 	Helper::getHeader('Algebra Contacts');
-
+/*
 	$db = DB::getInstance();
 
 	$db->insert("users", array(
@@ -23,7 +23,7 @@
 	} else {
 		echo 'Trenutno nema podataka u bazi!!!!';
 	}
-		
+	*/	
 ?>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
