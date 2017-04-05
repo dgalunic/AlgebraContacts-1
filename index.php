@@ -2,6 +2,27 @@
 	require_once 'core/init.php';
 	
 	Helper::getHeader('Algebra Contacts');
+
+	$db = DB::getInstance();
+
+	$db->insert("users", array(
+		'name'=>'Marko Horvat',
+		'username'=>'Mark',
+		'password'=>'58583456789',
+		'salt'=>'5sdf1s5vsdfdsg5dc',
+		'role_id'=>1));
+
+//	$db->delete("users", array("id", ">=", 2, "AND", 'username', '=', 'Mark', "OR", 'role_id', '=' , 2));
+
+	$db->get("*", "users", array('id', '>', 2, "AND", 'username', '=', 'Mark', "OR", 'role_id', '=' , 1));
+
+	if($db->count() > 0) {
+		foreach ($db->results() as $result) {
+			echo $result->name . '<br />';
+		}
+	} else {
+		echo 'Trenutno nema podataka u bazi!!!!';
+	}
 		
 ?>
     <div class="row">
