@@ -1,8 +1,6 @@
 <?php
 	require_once 'core/init.php';
 	
-	Helper::getHeader('Algebra Contacts');
-	
 	$validation = new Validation();
 	
 	
@@ -17,18 +15,30 @@
 				'required' => true,
 				'min'      => 2,
 				'max'      => 20,
-				/*'unique'   => 'users'*/
+				'unique'   => 'users'
 			),
 			'password'        => array(
 				'required' => true,
 				'min'      => 8
 			),
-			'password_again'  => array(
+			'confirm_password'  => array(
 				'required' => true,
 				'matches'  => 'password'
 			)
 		));
+		
+		if($validate->passed()) {
+			Session::flash('success', 'You registred successfully!');
+			header('Location: login.php');
+			exit();
+		}
+		
 	}
+	
+	Helper::getHeader('Algebra Contacts');
+	
+	require_once 'notifications.php';
+	
 ?>
 <div class="row">
 	<div class="col-md-4 col-md-offset-4">
@@ -43,17 +53,20 @@
 						<input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" value="<?php echo escape(Input::get('name'))?>">
 						<?php echo ($validation->hasError('name')) ? '<p class="text-danger">'.$validation->hasError('name').'</p>' : '';?>
 					</div>
-					<div class="form-group">
+					<div class="form-group <?php echo ($validation->hasError('username')) ? 'has-error' : ''; ?>">
 						<label for="username" class="control-label">Username*</label>
-						<input type="text" class="form-control" id="username" name="username" placeholder="Enter your username">
+						<input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" autocomplete="off">
+						<?php echo ($validation->hasError('username')) ? '<p class="text-danger">'.$validation->hasError('username').'</p>' : '';?>
 					</div>
-					<div class="form-group">
+					<div class="form-group <?php echo ($validation->hasError('password')) ? 'has-error' : ''; ?>">
 						<label for="password" class="control-label">Password*</label>
 						<input type="password" class="form-control" id="password" name="password" placeholder="Choose a password">
+						<?php echo ($validation->hasError('password')) ? '<p class="text-danger">'.$validation->hasError('password').'</p>' : '';?>
 					</div>
-					<div class="form-group">
-						<label for="password_again" class="control-label">Confirm Password*</label>
-						<input type="password" class="form-control" id="password_again" name="password_again" placeholder="Enter your password again">
+					<div class="form-group <?php echo ($validation->hasError('confirm_password')) ? 'has-error' : ''; ?>">
+						<label for="confirm_password" class="control-label">Confirm Password*</label>
+						<input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Enter your password again">
+						<?php echo ($validation->hasError('confirm_password')) ? '<p class="text-danger">'.$validation->hasError('confirm_password').'</p>' : '';?>
 					</div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary">Create an account</button>
