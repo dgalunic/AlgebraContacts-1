@@ -3,36 +3,40 @@
 	
 	$validation = new Validation();
 	
-	
 	if(Input::exists()) {
-		$validate = $validation->check(array(
-			'name'            => array(
-				'required' => true,
-				'min'      => 2,
-				'max'      => 50
-			),
-			'username'        => array(
-				'required' => true,
-				'min'      => 2,
-				'max'      => 20,
-				'unique'   => 'users'
-			),
-			'password'        => array(
-				'required' => true,
-				'min'      => 8
-			),
-			'confirm_password'  => array(
-				'required' => true,
-				'matches'  => 'password'
-			)
-		));
-		
-		if($validate->passed()) {
-			Session::flash('success', 'You registred successfully!');
-			header('Location: login.php');
-			exit();
-		}
-		
+		if(Token::getInstance()->check(Input::get('token'))) {
+			$validate = $validation->check(array(
+				'name'            => array(
+					'required' => true,
+					'min'      => 2,
+					'max'      => 50
+				),
+				'username'        => array(
+					'required' => true,
+					'min'      => 2,
+					'max'      => 20,
+					'unique'   => 'users'
+				),
+				'password'        => array(
+					'required' => true,
+					'min'      => 8
+				),
+				'confirm_password'  => array(
+					'required' => true,
+					'matches'  => 'password'
+				)
+			));
+			
+			if($validate->passed()) {
+				
+				$salt = Hash::salt(32);
+				$password = Hash::make(Input::get('password'), $salt);			
+				
+				Session::flash('success', 'You registred successfully!');
+				//Redirect::to('login');
+
+			}
+		} 
 	}
 	
 	Helper::getHeader('Algebra Contacts');
@@ -48,6 +52,7 @@
 			</div>
 			<div class="panel-body">
 				<form method="post">
+					<input type="hidden" name="token" value="<?php echo Token::getInstance()->generate(); ?>">
 					<div class="form-group <?php echo ($validation->hasError('name')) ? 'has-error' : ''; ?>">
 						<label for="name" class="control-label">Name*</label>
 						<input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" value="<?php echo escape(Input::get('name'))?>">
