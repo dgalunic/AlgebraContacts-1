@@ -20,7 +20,8 @@
 				),
 				'password'        => array(
 					'required' => true,
-					'min'      => 8
+					'min'      => 8,
+					'pattern'  => '/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/'
 				),
 				'confirm_password'  => array(
 					'required' => true,
