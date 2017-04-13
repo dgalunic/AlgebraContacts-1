@@ -32,8 +32,11 @@
 				$salt = Hash::salt(32);
 				$password = Hash::make(Input::get('password'), $salt);			
 				
+				
+				
+				
 				Session::flash('success', 'You registred successfully!');
-				//Redirect::to('login');
+				Redirect::to('login');
 
 			}
 		} 
