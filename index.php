@@ -1,7 +1,14 @@
 <?php
-	require_once 'core/init.php';
-	
-	Helper::getHeader('Algebra Contacts');
+    require_once 'core/init.php';
+
+    $user = new User();
+    if($user->check()) {
+        Redirect::to('dashboard');
+    }
+
+    Helper::getHeader('Algebra Contacts','header-index');
+
+    require_once 'notifications.php';
 
 ?>
     <div class="row">
@@ -20,7 +27,5 @@
         </div>
     </div>
 <?php
-	Helper::getFooter();
+    Helper::getFooter();
 ?>
-
-    
