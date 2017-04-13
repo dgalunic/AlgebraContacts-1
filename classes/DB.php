@@ -26,9 +26,10 @@ class DB
 		$this->_config = Config::get('config/database');
 		$driver = $this->_config['driver'];
 		$driverArray = $this->_config[$this->_config['driver']];
+		$dsn = $driver.':host='.$driverArray['host'].';dbname='.$driverArray['db'].';charset='.$driverArray['charset'];
 		
 		try {
-			$this->_connection = new PDO($driver.':host='.$driverArray['host'].';dbname='.$driverArray['db'].';'.$driverArray['charset'],$driverArray['user'], $driverArray['pass']);
+			$this->_connection = new PDO($dsn, $driverArray['user'], $driverArray['pass']);
 		} catch (PDOException $e) {
 			die($e->getMessage());
 		}
