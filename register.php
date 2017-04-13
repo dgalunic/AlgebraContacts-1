@@ -2,9 +2,10 @@
 	require_once 'core/init.php';
 	
 	$validation = new Validation();
+	$token = new Token();
 	
 	if(Input::exists()) {
-		if(Token::getInstance()->check(Input::get('token'))) {
+		if($token->check(Input::get('token'))) {
 			$validate = $validation->check(array(
 				'name'            => array(
 					'required' => true,
@@ -19,7 +20,8 @@
 				),
 				'password'        => array(
 					'required' => true,
-					'min'      => 8
+					'min'      => 8,
+					'pattern'  => '/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/'
 				),
 				'confirm_password'  => array(
 					'required' => true,
@@ -44,8 +46,6 @@
 	
 	Helper::getHeader('Algebra Contacts');
 	
-	require_once 'notifications.php';
-	
 ?>
 <div class="row">
 	<div class="col-md-4 col-md-offset-4">
@@ -55,7 +55,7 @@
 			</div>
 			<div class="panel-body">
 				<form method="post">
-					<input type="hidden" name="token" value="<?php echo Token::getInstance()->generate(); ?>">
+					<input type="hidden" name="token" value="<?php echo $token->generate(); ?>">
 					<div class="form-group <?php echo ($validation->hasError('name')) ? 'has-error' : ''; ?>">
 						<label for="name" class="control-label">Name*</label>
 						<input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" value="<?php echo escape(Input::get('name'))?>">
