@@ -4,7 +4,7 @@ class Token
 {
 	private static $_token_name;
 	
-	private function __construct()
+	public function __construct()
 	{
 		self::$_token_name = Config::get('config/session')['sessions']['token_name'];
 	}
